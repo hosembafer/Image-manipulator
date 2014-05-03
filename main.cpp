@@ -1,10 +1,9 @@
 // g++ arguments
 // g++ `Magick++-config --cxxflags --cppflags` `fltk-config --cxxflags --ldflags`  -o "%e" "%f" `Magick++-config --ldflags --libs`
 
-#include <map>
 #include <iostream>
+#include <map>
 #include <Magick++.h>
-#include <sys/utsname.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +61,7 @@ void init()
 		buttonChooseIn = new Fl_Button(310, 10, 180, 30, "Choose Images: ");
 		buttonChooseOut = new Fl_Button(310, 60, 180, 30, "Save folder: ");
 		
-		buttonProceed = new Fl_Button(480, 350, 100, 30, "Proceed");
+		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
 	win->end();
 	
 	buttonChooseIn->callback(getChooseImages);
@@ -200,6 +199,6 @@ void proceed(Fl_Widget *event, void*)
 			}
 		}
 		
-		cout << "Proceed end." << endl;
+		fl_alert("Resizing end.");
 	}
 }
