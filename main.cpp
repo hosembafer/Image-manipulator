@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
@@ -15,12 +16,15 @@
 #include <FL/fl_message.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_Progress.H>
 
 using namespace std;
 
 Fl_Window *win;
 Fl_Int_Input *inputWidth;
 Fl_Int_Input *inputHeight;
+
+Fl_Progress *progressBar;
 
 Fl_Button *buttonChooseIn;
 Fl_Button *buttonChooseOut;
@@ -62,6 +66,11 @@ void init()
 		buttonChooseOut = new Fl_Button(310, 60, 180, 30, "Save folder: ");
 		
 		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
+		
+		progressBar = new Fl_Progress(70, 350, 400, 30, "Progress bar");
+		progressBar->color(0x88888800);
+		progressBar->selection_color(0x4444ff00);
+		progressBar->labelcolor(FL_WHITE);
 	win->end();
 	
 	buttonChooseIn->callback(getChooseImages);
@@ -197,7 +206,19 @@ void proceed(Fl_Widget *event, void*)
 			{
 				cout << "Not valid image extension." << endl;
 			}
+			
+			int percent;
+			char percentStr[10];
+			
+			percent = ceil((i+1)*100/imgChooseList.size());
+			sprintf(percentStr, "%d%%", percent);
+			progressBar->label(percentStr);
+			progressBar->value(percent);
+			Fl::check();
 		}
+		
+		progressBar->label("0 %");
+		progressBar->value(0);
 		
 		fl_alert("Resizing end.");
 	}
