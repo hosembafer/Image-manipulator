@@ -30,6 +30,7 @@ Fl_Button *buttonChooseIn;
 Fl_Button *buttonChooseOut;
 Fl_Button *buttonProceed;
 
+Magick::Image *imageObj;
 map <int, string> imgChooseList;
 string saveFolderPath;
 string wh;
@@ -62,15 +63,10 @@ void init()
 		inputWidth = new Fl_Int_Input(70, 10, 100, 40, "Width: ");
 		inputHeight = new Fl_Int_Input(70, 60, 100, 40, "Height: ");
 		
-		buttonChooseIn = new Fl_Button(310, 10, 180, 30, "Choose Images: ");
-		buttonChooseOut = new Fl_Button(310, 60, 180, 30, "Save folder: ");
+		buttonChooseIn = new Fl_Button(210, 10, 180, 30, "Choose Images");
+		buttonChooseOut = new Fl_Button(400, 10, 180, 30, "Save folder");
 		
 		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
-		
-		progressBar = new Fl_Progress(70, 350, 400, 30, "Progress bar");
-		progressBar->color(0x88888800);
-		progressBar->selection_color(0x4444ff00);
-		progressBar->labelcolor(FL_WHITE);
 	win->end();
 	
 	buttonChooseIn->callback(getChooseImages);
@@ -123,7 +119,6 @@ void getChooseSaveFolder(Fl_Widget *event, void*)
 	{
 		saveFolderPath = chooser.value();
 	}
-	cout << saveFolderPath << endl;
 }
 
 const char* strtoupper(string str)
@@ -180,7 +175,14 @@ void proceed(Fl_Widget *event, void*)
 	{
 		int i;
 		string filePath;
-		Magick::Image image;
+		
+		win->begin();
+			progressBar = new Fl_Progress(70, 350, 400, 30, "0%");
+			progressBar->color(0x88888800);
+			progressBar->selection_color(0x4444ff00);
+			progressBar->labelcolor(FL_WHITE);
+		win->end();
+		
 		for(i = 0; i < imgChooseList.size(); i++)
 		{
 			cout << "[" << (i+1) << " of " << imgChooseList.size() << "] ";
@@ -191,10 +193,9 @@ void proceed(Fl_Widget *event, void*)
 				outTmpFilePath += saveFolderPath;
 				outTmpFilePath += strLastSplit(filePath, "/");
 				
-				image.read(filePath);
-				image.resize(wh);
-				image.write(outTmpFilePath);
-				
+				imageObj = new Magick::Image(filePath);
+				imageObj->resize(wh);
+				imageObj->write(outTmpFilePath);
 				
 				cout
 					<< imgChooseList[i] << " -> " << outTmpFilePath
@@ -217,9 +218,11 @@ void proceed(Fl_Widget *event, void*)
 			Fl::check();
 		}
 		
-		progressBar->label("0 %");
-		progressBar->value(0);
+		win->remove(progressBar);
+		delete progressBar;
+		win->redraw();
 		
-		fl_alert("Resizing end.");
+		fl_alert("Success");
+		cout << "Success" << endl << endl;
 	}
 }
