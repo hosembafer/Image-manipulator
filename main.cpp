@@ -17,6 +17,7 @@
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Progress.H>
+#include <FL/Fl_Browser.H>
 
 using namespace std;
 
@@ -25,6 +26,7 @@ Fl_Int_Input *inputWidth;
 Fl_Int_Input *inputHeight;
 
 Fl_Progress *progressBar;
+Fl_Browser *browseList;
 
 Fl_Button *buttonChooseIn;
 Fl_Button *buttonChooseOut;
@@ -67,7 +69,18 @@ void init()
 		buttonChooseOut = new Fl_Button(400, 10, 180, 30, "Save folder");
 		
 		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
+		
+		browseList = new Fl_Browser(210, 100, 370, 200, "Images list");
+		int widths[] = {200, 50};
+		browseList->column_widths(widths);
+		browseList->column_char('\t');
+		browseList->type(FL_MULTI_BROWSER);
 	win->end();
+	
+	win->resizable(browseList);
+	win->resizable(buttonProceed);
+	win->resizable(inputWidth); win->resizable(inputHeight);
+	win->resizable(buttonChooseIn); win->resizable(buttonChooseOut);
 	
 	buttonChooseIn->callback(getChooseImages);
 	buttonChooseOut->callback(getChooseSaveFolder);
@@ -99,6 +112,16 @@ void getChooseImages(Fl_Widget *event, void*)
 			imgChooseList[i] = chooser.value(i+1);
 		}
 	}
+	
+	for(int i = 0; i < imgChooseList.size(); i++)
+	{
+		string tmp = imgChooseList[i];
+		tmp += '\t';
+		tmp += strtoupper(strLastSplit(imgChooseList[i], "."));
+		cout << strtoupper(strLastSplit(imgChooseList[i], ".")) << endl;
+		browseList->add(tmp.c_str());
+	}
+	browseList->show();
 }
 
 void getChooseSaveFolder(Fl_Widget *event, void*)
@@ -140,19 +163,8 @@ int imageExtExists(string path)
 {
 	string tmp = strtoupper(strLastSplit(path, "."));
 	if(tmp == "JPG" || tmp == "JPEG" || tmp == "GIF" || tmp == "PNG")
-	{
 		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-string getFileNameFromPath(string *path)
-{
-	
-	return "qwerty";
+	return 0;
 }
 
 int prepare()
