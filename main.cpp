@@ -71,7 +71,7 @@ void init()
 		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
 		
 		browseList = new Fl_Browser(210, 100, 370, 200, "Images list");
-		int widths[] = {200, 50};
+		int widths[] = {370};
 		browseList->column_widths(widths);
 		browseList->column_char('\t');
 		browseList->type(FL_MULTI_BROWSER);
@@ -105,20 +105,15 @@ void getChooseImages(Fl_Widget *event, void*)
 		Fl::wait();
 	
 	if(chooser.count() > 0)
-	{
-		int i;
-		for(i = 0; i < chooser.count(); i++)
-		{
+		for(int i = 0; i < chooser.count(); i++)
 			imgChooseList[i] = chooser.value(i+1);
-		}
-	}
+	
+	
+	browseList->clear();
 	
 	for(int i = 0; i < imgChooseList.size(); i++)
 	{
 		string tmp = imgChooseList[i];
-		tmp += '\t';
-		tmp += strtoupper(strLastSplit(imgChooseList[i], "."));
-		cout << strtoupper(strLastSplit(imgChooseList[i], ".")) << endl;
 		browseList->add(tmp.c_str());
 	}
 	browseList->show();
