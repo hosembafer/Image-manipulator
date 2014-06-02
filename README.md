@@ -1,5 +1,4 @@
 BigImageManipulator
 ===================
 
-Screenshot
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "In proceed")
+![alt text](https://raw.githubusercontent.com/psrafo/BigImageManipulator/master/screenshots/in_proceed.png "In proceed")
