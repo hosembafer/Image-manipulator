@@ -12,6 +12,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Choice.H>
 #include <FL/Fl_Window.H>
 #include <FL/fl_message.H>
 #include <FL/Fl_Int_Input.H>
@@ -27,6 +28,7 @@ Fl_Int_Input *inputHeight;
 
 Fl_Progress *progressBar;
 Fl_Browser *browseList;
+Fl_Choice *procType;
 
 Fl_Button *buttonChooseIn;
 Fl_Button *buttonChooseOut;
@@ -62,15 +64,23 @@ void init()
 {
 	win = new Fl_Window(600, 400, "Big Image Manipulator");
 	win->begin();
-		inputWidth = new Fl_Int_Input(70, 10, 100, 40, "Width: ");
-		inputHeight = new Fl_Int_Input(70, 60, 100, 40, "Height: ");
+		inputWidth = new Fl_Int_Input(260, 60, 100, 30, "Width: ");
+		inputHeight = new Fl_Int_Input(480, 60, 100, 30, "Height: ");
+		
+		procType = new Fl_Choice(70, 10, 100, 30, "To do: ");
+			procType->add("Resize");
+			procType->add("Crop");
+			procType->add("Resize and Crop");
+			procType->add("Resize and Crop (Adaptive)");
+			procType->value(0);
+		procType->redraw();
 		
 		buttonChooseIn = new Fl_Button(210, 10, 180, 30, "Choose Images");
 		buttonChooseOut = new Fl_Button(400, 10, 180, 30, "Save folder");
 		
 		buttonProceed = new Fl_Button(480, 350, 100, 30, "RUN");
 		
-		browseList = new Fl_Browser(210, 100, 370, 200, "Images list");
+		browseList = new Fl_Browser(210, 120, 370, 200, "Images list");
 		int widths[] = {370};
 		browseList->column_widths(widths);
 		browseList->column_char('\t');
@@ -190,6 +200,9 @@ void proceed(Fl_Widget *event, void*)
 			progressBar->labelcolor(FL_WHITE);
 		win->end();
 		
+		buttonProceed->hide();
+		win->redraw();
+		
 		for(i = 0; i < imgChooseList.size(); i++)
 		{
 			cout << "[" << (i+1) << " of " << imgChooseList.size() << "] ";
@@ -224,6 +237,8 @@ void proceed(Fl_Widget *event, void*)
 			progressBar->value(percent);
 			Fl::check();
 		}
+		
+		buttonProceed->show();
 		
 		win->remove(progressBar);
 		delete progressBar;
