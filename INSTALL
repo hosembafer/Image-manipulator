@@ -1,0 +1,4 @@
+Image-manipulator - Group resizing, cropping and filtering images
+
+INSTALL:
+	make

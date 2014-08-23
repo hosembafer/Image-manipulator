@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Image Manipulator
+Version=0.0.1
+Comment=Group resizing, cropping and filtering images
+Icon=/usr/local/share/Image-manipulator/Image-manipulator-32x32.png
+Exec=Image-manipulator
+Encoding=UTF-8
+Type=Application
+Categories=Graphics

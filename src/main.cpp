@@ -1,5 +1,6 @@
 // g++ arguments
 // g++ `Magick++-config --cxxflags --cppflags` `fltk-config --cxxflags --ldflags`  -o image-manipulator main.cpp `Magick++-config --ldflags --libs` `fltk-config --ldflags --libs`
+// g++-new g++ -o image-manipulator main.cpp `Magick++-config --cxxflags --cppflags --ldflags --libs` `fltk-config --cxxflags --ldflags --libs`
 
 #include <iostream>
 #include <map>
