@@ -1,5 +1,5 @@
 // g++ arguments
-// g++ `Magick++-config --cxxflags --cppflags` `fltk-config --cxxflags --ldflags`  -o "%e" "%f" `Magick++-config --ldflags --libs`
+// g++ `Magick++-config --cxxflags --cppflags` `fltk-config --cxxflags --ldflags`  -o "%e" "%f" `Magick++-config --ldflags --libs` `fltk-config --ldflags --libs`
 
 #include <iostream>
 #include <map>
