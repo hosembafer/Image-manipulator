@@ -1,13 +1,17 @@
 INSTALL = /usr/bin/install -c
 INSTALLDATA = /usr/bin/install -c -D -m 644
 
-CC = g++
+CC = gcc
 CPARAMS = -o
-CFLAGS = `Magick++-config --cxxflags --cppflags --ldflags --libs` `fltk-config --cxxflags --ldflags --libs`
-SOURCES = src/main.cpp
+
+CFLAGS = `pkg-config --cflags --libs gtk+-3.0`
+SOURCES = src/main.c
 EXECUTABLE = Image-manipulator
 
 all: Image-manipulator
+
+unmake:
+	rm -rf Image-manipulator
 
 Image-manipulator:
 	$(CC) $(CPARAMS) $(EXECUTABLE) $(SOURCES) $(CFLAGS)
