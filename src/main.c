@@ -5,6 +5,7 @@
 #include <gtk/gtk.h>
 
 #include "vars.c"
+#include "misc.c"
 #include "ui.c"
 
 int main(int argc, char *argv[])

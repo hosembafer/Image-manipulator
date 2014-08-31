@@ -14,4 +14,5 @@ GtkWidget *tab_label;
 GtkWidget *main_box;
 	GtkWidget *toolbar;
 	GtkWidget *list;
-		GtkWidget *list_in;
+		GtkWidget *tree_view;
+			GtkWidget *store;
