@@ -67,12 +67,16 @@ void init_ui()
 	tabs = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(tabs), GTK_POS_TOP);
 	
-	for(i = 0; i < 4; i++)
+	for(i = 0; i < 2; i++)
 	{
-		tab_frame = gtk_frame_new("a");
+		if(i == 0)
+			tab_label = gtk_label_new("Properties");
+		else
+			tab_label = gtk_label_new("Filters");
+		
+		tab_frame = gtk_frame_new("q");
 		gtk_container_set_border_width(GTK_CONTAINER(tab_frame), 10);
 		
-		tab_label = gtk_label_new("q");
 		gtk_notebook_append_page(GTK_NOTEBOOK(tabs), tab_frame, tab_label);
 	}
 	

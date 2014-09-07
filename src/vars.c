@@ -16,3 +16,6 @@ GtkWidget *main_box;
 	GtkWidget *list;
 		GtkWidget *tree_view;
 			GtkWidget *store;
+
+
+GSList *main_list = NULL;
