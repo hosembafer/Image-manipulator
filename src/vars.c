@@ -13,9 +13,22 @@ GtkWidget *tab_label;
 
 GtkWidget *main_box;
 	GtkWidget *toolbar;
-	GtkWidget *list;
+	GtkWidget *scrolled_win;
 		GtkWidget *tree_view;
 			GtkWidget *store;
 
+GtkWidget *output_dir_path;
+GtkWidget *button_choose_dir;
+GtkWidget *button_quit;
 
-GSList *main_list = NULL;
+
+
+
+const char *C_TITLE = "Image Manipulator";
+
+const char *C_COLUMN_NAME = "Name";
+const char *C_COLUMN_STATUS = "Status";
+const char *C_COLUMN_PATH = "Path";
+
+const int *C_COLUMN_NAME__WIDTH = 150;
+const int *C_COLUMN_STATUS__WIDTH = 80;

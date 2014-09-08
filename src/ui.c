@@ -5,7 +5,7 @@ void init_ui()
 	
 	// main window
 	mainwin = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title(GTK_WINDOW(mainwin), "Image Manipulator");
+		gtk_window_set_title(GTK_WINDOW(mainwin), C_TITLE);
 		gtk_window_set_default_size(GTK_WINDOW(mainwin), 850, 600);
 		gtk_container_set_border_width (GTK_CONTAINER(mainwin), 10);
 		g_signal_connect(mainwin, "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -15,48 +15,78 @@ void init_ui()
 		gtk_container_add(GTK_CONTAINER(main_box), toolbar);
 		
 		button_add = gtk_button_new_from_stock(GTK_STOCK_ADD);
+		
 		button_start = gtk_button_new_from_stock(GTK_STOCK_CONVERT);
+		
 		button_pause = gtk_button_new_with_label("Pause");
 			gtk_widget_set_sensitive(button_pause, FALSE);
 			g_signal_connect(button_add, "clicked", G_CALLBACK(add_files), NULL);
+		
 		button_stop = gtk_button_new_from_stock(GTK_STOCK_STOP);
 			gtk_widget_set_sensitive(button_stop, FALSE);
 			g_signal_connect(button_start, "clicked", G_CALLBACK(start_convert), NULL);
+		
+		GtkWidget *empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		
+		output_dir_path = gtk_entry_new();
+			gtk_entry_set_text(output_dir_path, getenv("HOME"));
+			gtk_entry_set_width_chars(output_dir_path, 10);
+			gtk_editable_set_editable(GTK_EDITABLE(output_dir_path), FALSE);
+		
+		button_choose_dir = gtk_button_new_from_stock(GTK_STOCK_OPEN);
+			g_signal_connect(button_choose_dir, "clicked", G_CALLBACK(browse_out_dir), NULL);
+		
+		GtkWidget *separator_pre_empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		GtkWidget *separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
+		GtkWidget *separator_end_empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+		
+		button_quit = gtk_button_new_from_stock(GTK_STOCK_QUIT);
+			g_signal_connect(button_quit, "clicked", G_CALLBACK(legal_quit), NULL);
+		
 		
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_add), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_start), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_pause), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_stop), FALSE, FALSE, 1);
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(empty_space), TRUE, TRUE, 1);
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(output_dir_path), TRUE, TRUE, 1);
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_choose_dir), FALSE, FALSE, 1);
+		
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(separator_pre_empty_space), FALSE, FALSE, 1);
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(separator), FALSE, FALSE, 1);
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(separator_end_empty_space), FALSE, FALSE, 1);
+		
+		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_quit), FALSE, FALSE, 1);
 	
 	
 	// attached file list
-	list = gtk_scrolled_window_new(NULL, NULL);
-		gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(list), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_container_add(GTK_CONTAINER(main_box), list);
+	scrolled_win = gtk_scrolled_window_new(NULL, NULL);
+		gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_container_add(GTK_CONTAINER(main_box), scrolled_win);
 	
 	tree_view = gtk_tree_view_new();
-		gtk_container_add(GTK_CONTAINER(list), tree_view);
+		gtk_container_add(GTK_CONTAINER(scrolled_win), tree_view);
 		gtk_drag_dest_set(GTK_WIDGET(tree_view), GTK_DEST_DEFAULT_ALL, NULL, 100, GDK_DRAG_ENTER);
 		gtk_drag_dest_add_uri_targets(GTK_WIDGET(tree_view));
 	
 		GtkCellRenderer *renderer;
 		renderer = gtk_cell_renderer_text_new();
 		
-		GtkTreeViewColumn *column_name = gtk_tree_view_column_new_with_attributes("Name", renderer, NULL);
-		gtk_tree_view_column_set_min_width(column_name, 150);
+		GtkTreeViewColumn *column_name = gtk_tree_view_column_new_with_attributes(C_COLUMN_NAME, renderer, NULL);
+		gtk_tree_view_column_set_min_width(column_name, C_COLUMN_NAME__WIDTH);
 		gtk_tree_view_column_set_resizable(column_name, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_name);
 		
-		GtkTreeViewColumn *column_status = gtk_tree_view_column_new_with_attributes("Status", renderer, NULL);
-		gtk_tree_view_column_set_min_width(column_status, 80);
+		GtkTreeViewColumn *column_status = gtk_tree_view_column_new_with_attributes(C_COLUMN_STATUS, renderer, NULL);
+		gtk_tree_view_column_set_min_width(column_status, C_COLUMN_STATUS__WIDTH);
 		gtk_tree_view_column_set_resizable(column_status, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_status);
 		
-		GtkTreeViewColumn *column_path = gtk_tree_view_column_new_with_attributes("Path", renderer, NULL);
+		GtkTreeViewColumn *column_path = gtk_tree_view_column_new_with_attributes(C_COLUMN_PATH, renderer, NULL);
 		gtk_tree_view_column_set_resizable(column_path, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_path);
 		
-		store = gtk_list_store_new((gint)3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+		store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 		gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(store));
 		g_object_unref(store);
 	

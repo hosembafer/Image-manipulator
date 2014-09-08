@@ -33,10 +33,7 @@ void add_files()
 		selected_file = sel = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(input_chooser));
 		while(selected_file)
 		{
-			printf("%s\n", selected_file->data);
-			main_list = g_slist_append(main_list, selected_file->data);
-			
-			add_to_list(store, selected_file->data);
+			add_to_list(selected_file->data);
 			
 			g_free(selected_file->data);
 			selected_file = selected_file->next;
@@ -49,7 +46,7 @@ void add_files()
 	gtk_widget_destroy(input_chooser);
 }
 
-void add_to_list(GtkWidget *list, gchar *str)
+void add_to_list(gchar *str)
 {
 	if(!g_file_test(str, G_FILE_TEST_IS_SYMLINK) && !g_file_test(str, G_FILE_TEST_IS_DIR) && g_file_test(str, G_FILE_TEST_IS_REGULAR))
 	{
@@ -59,10 +56,34 @@ void add_to_list(GtkWidget *list, gchar *str)
 		
 		char* fullname = get_full_name(str);
 		
-		gtk_list_store_set(store, &iter, "Name", fullname, "Status", "Waiting", "Path", str, -1);
+		gtk_list_store_set(store, &iter, C_COLUMN_NAME, fullname, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
 		
 		free(fullname);
 	}
+}
+
+void browse_out_dir()
+{
+	GtkWidget *output_chooser = gtk_file_chooser_dialog_new("Choose Folder", GTK_WINDOW(mainwin), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(output_chooser), getenv("HOME"));
+	
+	if(gtk_dialog_run(GTK_DIALOG(output_chooser)) == GTK_RESPONSE_ACCEPT)
+	{
+		char *folder_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(output_chooser));
+		if(access(folder_name, 7) == 0)
+		{
+			gtk_entry_set_text(output_dir_path, folder_name);
+		}
+		free(folder_name);
+	}
+	
+	gtk_widget_destroy(output_chooser);
+}
+
+void legal_quit()
+{
+	printf("quit\n");
+	gtk_main_quit();
 }
 
 void start_convert()
