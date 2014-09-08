@@ -1,3 +1,24 @@
+char* get_full_name(char* path)
+{
+	char* fullname;
+	char* full_name_iter;
+	char* path_iter;
+	char* last_slash = strrchr(path, '/');
+	
+	fullname = calloc(strlen(path) - (last_slash - path) + 1, sizeof(char));
+	full_name_iter = fullname;
+
+	path_iter = last_slash + 1;
+	while(*path_iter != '\0')
+	{
+		*full_name_iter = *path_iter;
+		full_name_iter++;
+		path_iter++;
+	}
+	*full_name_iter = '\0';
+	return fullname;
+}
+
 void add_files()
 {
 	GtkWidget *input_chooser = gtk_file_chooser_dialog_new("Choose Files", GTK_WINDOW(mainwin), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
@@ -30,17 +51,17 @@ void add_files()
 
 void add_to_list(GtkWidget *list, gchar *str)
 {
-	if(!g_file_test(str,G_FILE_TEST_IS_SYMLINK) && !g_file_test(str,G_FILE_TEST_IS_DIR) && g_file_test(str,G_FILE_TEST_IS_REGULAR))
+	if(!g_file_test(str, G_FILE_TEST_IS_SYMLINK) && !g_file_test(str, G_FILE_TEST_IS_DIR) && g_file_test(str, G_FILE_TEST_IS_REGULAR))
 	{
-		/*GtkTreeIter iter;
-		store = GTK_LIST_STORE(  gtk_tree_view_get_model( GTK_TREE_VIEW(list) )  );
+		GtkTreeIter iter;
+		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
 		gtk_list_store_append(store, &iter);
 		
-		char* fullname=get_full_name(str);
+		char* fullname = get_full_name(str);
 		
 		gtk_list_store_set(store, &iter, "Name", fullname, "Status", "Waiting", "Path", str, -1);
 		
-		free(fullname);*/
+		free(fullname);
 	}
 }
 
