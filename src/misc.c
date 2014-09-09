@@ -1,4 +1,4 @@
-char* get_full_name(char* path)
+char *get_full_name(char* path)
 {
 	char* fullname;
 	char* full_name_iter;
@@ -19,6 +19,19 @@ char* get_full_name(char* path)
 	return fullname;
 }
 
+double get_file_size(char *filepath)
+{
+	struct stat st;
+	double f_b_size = 0, mb = 0;
+	
+	if(stat(filepath, &st) == 0)
+		f_b_size = st.st_size;
+	
+	mb = f_b_size / (1024 * 1024);
+	
+	return mb;
+}
+
 void add_files()
 {
 	GtkWidget *input_chooser = gtk_file_chooser_dialog_new("Choose Files", GTK_WINDOW(mainwin), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
@@ -28,7 +41,6 @@ void add_files()
 	
 	if(gtk_dialog_run(GTK_DIALOG(input_chooser)) == GTK_RESPONSE_ACCEPT)
 	{
-		
 		GSList *selected_file, *sel;
 		selected_file = sel = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(input_chooser));
 		while(selected_file)
@@ -55,8 +67,9 @@ void add_to_list(gchar *str)
 		gtk_list_store_append(store, &iter);
 		
 		char* fullname = get_full_name(str);
+		double file_size = get_file_size("/root/Mounts/d/Images/Photos/part_1/vetton_ru_ba772a5a4ec1-2560x1600.jpg");
 		
-		gtk_list_store_set(store, &iter, C_COLUMN_NAME, fullname, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
+		gtk_list_store_set(store, &iter, C_COLUMN_NAME, fullname, C_COLUMN_SIZE, file_size, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
 		
 		free(fullname);
 	}

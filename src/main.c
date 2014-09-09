@@ -3,6 +3,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <sys/stat.h>
+
 #include <gtk/gtk.h>
 
 #include "vars.c"

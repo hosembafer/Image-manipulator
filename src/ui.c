@@ -77,6 +77,11 @@ void init_ui()
 		gtk_tree_view_column_set_resizable(column_name, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_name);
 		
+		GtkTreeViewColumn *column_size = gtk_tree_view_column_new_with_attributes(C_COLUMN_SIZE, renderer, NULL);
+		gtk_tree_view_column_set_min_width(column_size, C_COLUMN_SIZE__WIDTH);
+		gtk_tree_view_column_set_resizable(column_size, TRUE);
+		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_size);
+		
 		GtkTreeViewColumn *column_status = gtk_tree_view_column_new_with_attributes(C_COLUMN_STATUS, renderer, NULL);
 		gtk_tree_view_column_set_min_width(column_status, C_COLUMN_STATUS__WIDTH);
 		gtk_tree_view_column_set_resizable(column_status, TRUE);
@@ -86,7 +91,7 @@ void init_ui()
 		gtk_tree_view_column_set_resizable(column_path, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_path);
 		
-		store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+		store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_STRING, G_TYPE_STRING);
 		gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(store));
 		g_object_unref(store);
 	
