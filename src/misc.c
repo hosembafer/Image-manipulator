@@ -60,14 +60,17 @@ void add_files()
 
 void add_to_list(gchar *str)
 {
+	double file_size;
+	char* fullname;
+	GtkTreeIter iter;
+	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
+	
 	if(!g_file_test(str, G_FILE_TEST_IS_SYMLINK) && !g_file_test(str, G_FILE_TEST_IS_DIR) && g_file_test(str, G_FILE_TEST_IS_REGULAR))
 	{
-		GtkTreeIter iter;
-		store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
 		gtk_list_store_append(store, &iter);
 		
-		char* fullname = get_full_name(str);
-		double file_size = get_file_size("/root/Mounts/d/Images/Photos/part_1/vetton_ru_ba772a5a4ec1-2560x1600.jpg");
+		fullname = get_full_name(str);
+		file_size = get_file_size(str);
 		
 		gtk_list_store_set(store, &iter, C_COLUMN_NAME, fullname, C_COLUMN_SIZE, file_size, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
 		
