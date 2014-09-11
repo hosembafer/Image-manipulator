@@ -14,33 +14,33 @@ void init_ui()
 	toolbar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
 		gtk_container_add(GTK_CONTAINER(main_box), toolbar);
 		
-		button_add = gtk_button_new_from_stock(GTK_STOCK_ADD);
+		button_add = gtk_button_new_with_label("ADD");
 		
-		button_start = gtk_button_new_from_stock(GTK_STOCK_CONVERT);
+		button_start = gtk_button_new_with_label("CONVERT");
 		
 		button_pause = gtk_button_new_with_label("Pause");
 			gtk_widget_set_sensitive(button_pause, FALSE);
 			g_signal_connect(button_add, "clicked", G_CALLBACK(add_files), NULL);
 		
-		button_stop = gtk_button_new_from_stock(GTK_STOCK_STOP);
+		button_stop = gtk_button_new_with_label("STOP");
 			gtk_widget_set_sensitive(button_stop, FALSE);
-			g_signal_connect(button_start, "clicked", G_CALLBACK(start_convert), NULL);
+			g_signal_connect(GTK_WIDGET(button_start), "clicked", G_CALLBACK(start_convert), NULL);
 		
 		GtkWidget *empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		
 		output_dir_path = gtk_entry_new();
-			gtk_entry_set_text(output_dir_path, getenv("HOME"));
-			gtk_entry_set_width_chars(output_dir_path, 10);
+			gtk_entry_set_text(GTK_ENTRY(output_dir_path), getenv("HOME"));
+			gtk_entry_set_width_chars(GTK_ENTRY(output_dir_path), 10);
 			gtk_editable_set_editable(GTK_EDITABLE(output_dir_path), FALSE);
 		
-		button_choose_dir = gtk_button_new_from_stock(GTK_STOCK_OPEN);
+		button_choose_dir = gtk_button_new_with_label("OPEN");
 			g_signal_connect(button_choose_dir, "clicked", G_CALLBACK(browse_out_dir), NULL);
 		
 		GtkWidget *separator_pre_empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		GtkWidget *separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
 		GtkWidget *separator_end_empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		
-		button_quit = gtk_button_new_from_stock(GTK_STOCK_QUIT);
+		button_quit = gtk_button_new_with_label("QUIT");
 			g_signal_connect(button_quit, "clicked", G_CALLBACK(legal_quit), NULL);
 		
 		
@@ -61,9 +61,12 @@ void init_ui()
 	
 	// attached file list
 	scrolled_win = gtk_scrolled_window_new(NULL, NULL);
+		gtk_widget_set_margin_top(scrolled_win, 10);
+		gtk_widget_set_margin_bottom(scrolled_win, 10);
 		gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_container_add(GTK_CONTAINER(main_box), scrolled_win);
+		gtk_box_pack_start(GTK_BOX(main_box), GTK_WIDGET(scrolled_win), TRUE, TRUE, 0);
 	
+	// tree view
 	tree_view = gtk_tree_view_new();
 		gtk_container_add(GTK_CONTAINER(scrolled_win), tree_view);
 		gtk_drag_dest_set(GTK_WIDGET(tree_view), GTK_DEST_DEFAULT_ALL, NULL, 100, GDK_DRAG_ENTER);
@@ -91,7 +94,8 @@ void init_ui()
 		gtk_tree_view_column_set_resizable(column_path, TRUE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column_path);
 		
-		store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_STRING, G_TYPE_STRING);
+	// files store
+	store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_STRING, G_TYPE_STRING);
 		gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(store));
 		g_object_unref(store);
 	

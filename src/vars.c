@@ -15,7 +15,7 @@ GtkWidget *main_box;
 	GtkWidget *toolbar;
 	GtkWidget *scrolled_win;
 		GtkWidget *tree_view;
-			GtkWidget *store;
+			GtkListStore *store;
 
 GtkWidget *output_dir_path;
 GtkWidget *button_choose_dir;
