@@ -71,7 +71,7 @@ void init_ui()
 		gtk_container_add(GTK_CONTAINER(scrolled_win), tree_view);
 		gtk_drag_dest_set(GTK_WIDGET(tree_view), GTK_DEST_DEFAULT_ALL, NULL, 100, GDK_DRAG_ENTER);
 		gtk_drag_dest_add_uri_targets(GTK_WIDGET(tree_view));
-	
+		
 		GtkCellRenderer *renderer;
 		renderer = gtk_cell_renderer_text_new();
 		
@@ -101,6 +101,9 @@ void init_ui()
 	
 	// progress bar
 	progress_bar = gtk_progress_bar_new();
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress_bar), "Files 15/12");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(progress_bar), FALSE);
+	gtk_widget_set_margin_bottom(progress_bar, 15);
 	gtk_container_add(GTK_CONTAINER(main_box), progress_bar);
 	
 	// tabs
