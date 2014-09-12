@@ -8,7 +8,7 @@ void init_ui()
 		gtk_window_set_title(GTK_WINDOW(mainwin), C_TITLE);
 		gtk_window_set_default_size(GTK_WINDOW(mainwin), 850, 600);
 		gtk_container_set_border_width (GTK_CONTAINER(mainwin), 10);
-		g_signal_connect(mainwin, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+		g_signal_connect(mainwin, "destroy", G_CALLBACK(legal_quit), NULL);
 	
 	// toolbar
 	toolbar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
@@ -62,7 +62,7 @@ void init_ui()
 	// attached file list
 	scrolled_win = gtk_scrolled_window_new(NULL, NULL);
 		gtk_widget_set_margin_top(scrolled_win, 10);
-		gtk_widget_set_margin_bottom(scrolled_win, 10);
+		gtk_widget_set_margin_bottom(scrolled_win, 5);
 		gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_box_pack_start(GTK_BOX(main_box), GTK_WIDGET(scrolled_win), TRUE, TRUE, 0);
 	
@@ -101,6 +101,7 @@ void init_ui()
 	
 	// progress bar
 	progress_bar = gtk_progress_bar_new();
+	gtk_container_add(GTK_CONTAINER(main_box), progress_bar);
 	
 	// tabs
 	tabs = gtk_notebook_new();
@@ -117,6 +118,15 @@ void init_ui()
 		gtk_container_set_border_width(GTK_CONTAINER(tab_frame), 10);
 		
 		gtk_notebook_append_page(GTK_NOTEBOOK(tabs), tab_frame, tab_label);
+		
+		if(i == 0)
+		{
+			
+		}
+		else
+		{
+			
+		}
 	}
 	
 	gtk_container_add(GTK_CONTAINER(main_box), tabs);

@@ -41,12 +41,13 @@ void add_to_list(gchar *str)
 	
 	if(!g_file_test(str, G_FILE_TEST_IS_SYMLINK) && !g_file_test(str, G_FILE_TEST_IS_DIR) && g_file_test(str, G_FILE_TEST_IS_REGULAR))
 	{
-		gtk_list_store_append(GTK_LIST_STORE(store), &iter);
-		
 		fullname = get_full_name(str);
 		file_size = get_file_size(str);
 		
-		gtk_list_store_set(store, &iter, C_COLUMN_NAME, fullname, C_COLUMN_SIZE, file_size, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
+		printf("%s - %f - %s - %s\n", fullname, file_size, "Waiting...", str);
+		
+		gtk_list_store_append(GTK_LIST_STORE(store), &iter);
+		gtk_list_store_set(GTK_LIST_STORE(store), &iter, C_COLUMN_NAME, fullname, C_COLUMN_SIZE, file_size, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
 		
 		free(fullname);
 	}
