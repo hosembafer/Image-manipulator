@@ -102,17 +102,30 @@ void legal_quit()
 	gtk_main_quit();
 }
 
-void start_convert()
+void get_convert()
 {
 	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(progress_bar), TRUE);
 	
 	gtk_widget_set_sensitive(button_add, FALSE);
 	gtk_widget_set_sensitive(button_start, FALSE);
-	gtk_widget_set_sensitive(button_pause, TRUE);
 	gtk_widget_set_sensitive(button_stop, TRUE);
+	gtk_widget_set_sensitive(button_choose_dir, FALSE);
 	
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress_bar), 0.3);
 	
-	
 	printf("%s\n", "Convert");
+}
+
+void get_stop()
+{
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(progress_bar), FALSE);
+	
+	gtk_widget_set_sensitive(button_add, TRUE);
+	gtk_widget_set_sensitive(button_start, TRUE);
+	gtk_widget_set_sensitive(button_stop, FALSE);
+	gtk_widget_set_sensitive(button_choose_dir, TRUE);
+
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress_bar), 0.0);
+
+	printf("Stop\n");
 }

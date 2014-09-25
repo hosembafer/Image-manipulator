@@ -15,16 +15,15 @@ void init_ui()
 		gtk_container_add(GTK_CONTAINER(main_box), toolbar);
 		
 		button_add = gtk_button_new_with_label("ADD");
+			g_signal_connect(button_add, "clicked", G_CALLBACK(add_files), NULL);
 		
 		button_start = gtk_button_new_with_label("CONVERT");
-		
-		button_pause = gtk_button_new_with_label("Pause");
-			gtk_widget_set_sensitive(button_pause, FALSE);
-			g_signal_connect(button_add, "clicked", G_CALLBACK(add_files), NULL);
+			g_signal_connect(GTK_WIDGET(button_start), "clicked", G_CALLBACK(get_convert), NULL);
+			//gtk_widget_set_sensitive(button_start, FALSE);
 		
 		button_stop = gtk_button_new_with_label("STOP");
 			gtk_widget_set_sensitive(button_stop, FALSE);
-			g_signal_connect(GTK_WIDGET(button_start), "clicked", G_CALLBACK(start_convert), NULL);
+			g_signal_connect(GTK_WIDGET(button_stop), "clicked",G_CALLBACK(get_stop), NULL);
 		
 		GtkWidget *empty_space = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		
@@ -46,7 +45,6 @@ void init_ui()
 		
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_add), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_start), FALSE, FALSE, 1);
-		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_pause), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(button_stop), FALSE, FALSE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(empty_space), TRUE, TRUE, 1);
 		gtk_box_pack_start(GTK_BOX(toolbar), GTK_WIDGET(output_dir_path), TRUE, TRUE, 1);
