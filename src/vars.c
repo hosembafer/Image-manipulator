@@ -21,8 +21,6 @@ GtkWidget *button_choose_dir;
 GtkWidget *button_quit;
 
 
-
-
 const char *C_TITLE = "Image Manipulator";
 
 const char *C_COLUMN_NAME = "Name";
@@ -33,3 +31,11 @@ const char *C_COLUMN_PATH = "Path";
 const int C_COLUMN_NAME__WIDTH = 150;
 const int C_COLUMN_SIZE__WIDTH = 80;
 const int C_COLUMN_STATUS__WIDTH = 80;
+
+enum {
+	COLUMN_NAME,
+	COLUMN_SIZE,
+	COLUMN_STATUS,
+	COLUMN_PATH,
+	N_COLUMNS
+};

@@ -32,12 +32,12 @@ double get_file_size(char *filepath)
 	return mb;
 }
 
-void add_to_list(gchar *str)
+void add_to_list(GtkWidget *list, gchar *str)
 {
 	double file_size;
 	char* fullname;
 	GtkTreeIter iter;
-	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
+	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
 	
 	if(!g_file_test(str, G_FILE_TEST_IS_SYMLINK) && !g_file_test(str, G_FILE_TEST_IS_DIR) && g_file_test(str, G_FILE_TEST_IS_REGULAR))
 	{
@@ -47,7 +47,12 @@ void add_to_list(gchar *str)
 		printf("%s - %f - %s - %s\n", fullname, file_size, "Waiting...", str);
 		
 		gtk_list_store_append(GTK_LIST_STORE(store), &iter);
-		gtk_list_store_set(GTK_LIST_STORE(store), &iter, C_COLUMN_NAME, fullname, C_COLUMN_SIZE, file_size, C_COLUMN_STATUS, "Waiting", C_COLUMN_PATH, str, -1);
+		gtk_list_store_set(GTK_LIST_STORE(store), &iter,
+			COLUMN_NAME, fullname,
+			COLUMN_SIZE, file_size,
+			COLUMN_STATUS, "Waiting",
+			COLUMN_PATH, str,
+			-1);
 		
 		free(fullname);
 	}
@@ -65,7 +70,7 @@ void add_files()
 		selected_file = sel = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(input_chooser));
 		while(selected_file)
 		{
-			add_to_list(selected_file->data);
+			add_to_list(tree_view, selected_file->data);
 			
 			g_free(selected_file->data);
 			selected_file = selected_file->next;
@@ -94,6 +99,8 @@ void browse_out_dir()
 	}
 	
 	gtk_widget_destroy(output_chooser);
+
+	printf("%s\n", gtk_entry_get_text(GTK_ENTRY(output_dir_path)));
 }
 
 void legal_quit()
