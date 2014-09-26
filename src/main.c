@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "vars.c"
 #include "misc.c"

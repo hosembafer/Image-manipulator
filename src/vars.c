@@ -1,7 +1,7 @@
 GtkWidget *mainwin;
 
 GtkWidget *button_add;
-GtkWidget *button_start;
+GtkWidget *button_convert;
 GtkWidget *button_stop;
 
 GtkWidget *progress_bar;
