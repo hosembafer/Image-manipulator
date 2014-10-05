@@ -2,7 +2,7 @@ void init_ui()
 {
 	int i;
 	main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
-	printf("asdf");
+	
 	// main window
 	mainwin = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_title(GTK_WINDOW(mainwin), C_TITLE);
