@@ -108,40 +108,45 @@ void init_ui()
 	// tabs
 	tabs = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(tabs), GTK_POS_TOP);
-	
+		
+		// Properties START
 		prop_label = gtk_label_new("Properties");
-		prop_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+		prop_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+		
+		GtkWidget *v_width_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
 		
 		GtkWidget *v_width_label = gtk_label_new("Width: ");
 		gtk_misc_set_alignment(GTK_MISC(v_width_label), 0.2, 0.5);
 		gtk_widget_set_size_request(v_width_label, 80, 20);
+			gtk_box_pack_start(GTK_BOX(v_width_row), v_width_label, FALSE, FALSE, 1);
+			
+		GtkWidget *v_width_spin = gtk_spin_button_new_with_range(1, 5000, 1);
+		gtk_editable_set_editable(GTK_EDITABLE(v_width_spin), FALSE);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(v_width_spin), 800);
+			gtk_box_pack_start(GTK_BOX(v_width_row), v_width_spin, FALSE, FALSE, 1);
 		
-		gtk_box_pack_start(GTK_BOX(prop_box), v_width_label, FALSE, FALSE, 1);
+		gtk_box_pack_start(GTK_BOX(prop_box), v_width_row, FALSE, FALSE, 1);
+		
+		
+		
+		GtkWidget *v_height_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
+		
+		GtkWidget *v_height_label = gtk_label_new("Height: ");
+		gtk_misc_set_alignment(GTK_MISC(v_height_label), 0.2, 0.5);
+		gtk_widget_set_size_request(v_height_label, 80, 20);
+			gtk_box_pack_start(GTK_BOX(v_height_row), v_height_label, FALSE, FALSE, 1);
+		
+		GtkWidget *v_height_spin = gtk_spin_button_new_with_range(1, 5000, 1);
+		gtk_editable_set_editable(GTK_MISC(v_height_spin), FALSE);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(v_height_spin), 600);
+			gtk_box_pack_start(GTK_BOX(v_height_row), v_height_spin, FALSE, FALSE, 1);
+		
+		gtk_box_pack_start(GTK_BOX(prop_box), v_height_row, FALSE, FALSE, 1);
 		
 		
 		gtk_notebook_append_page(GTK_NOTEBOOK(tabs), prop_box, prop_label);
 		
-		
-		
-		filt_label = gtk_label_new("Filters");
-		filt_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1);
-		
-		/*GtkWidget *v_width_label = gtk_label_new("Width: ");
-		gtk_misc_set_alignment(GTK_MISC(v_width_label), 0.2, 0.5);
-		gtk_widget_set_size_request(v_width_label, 80, 20);*/
-		
-		//gtk_box_pack_start(GTK_BOX(filt_box), v_width_label, FALSE, FALSE, 1);
-		
-		
-		gtk_notebook_append_page(GTK_NOTEBOOK(tabs), filt_box, filt_label);
-		
-		/*GtkWidget *v_format_lable= gtk_label_new("Format");
-		gtk_misc_set_alignment(GTK_MISC(v_format_lable),0,0.5);
-		gtk_widget_set_size_request(v_format_lable,80,20);*/
-		
-		/*GtkWidget *v_format_box=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,1);
-		gtk_box_pack_start(GTK_BOX(v_format_box),v_format_lable,FALSE,FALSE,1);
-		gtk_box_pack_start(GTK_BOX(v_format_box),v_format_combo,FALSE,FALSE,1);*/
+		// Properties END
 		
 
 	
