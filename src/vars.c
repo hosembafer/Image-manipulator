@@ -7,8 +7,12 @@ GtkWidget *button_stop;
 GtkWidget *progress_bar;
 
 GtkWidget *tabs;
-GtkWidget *tab_frame;
-GtkWidget *tab_label;
+
+	GtkWidget *prop_box;
+	GtkWidget *prop_label;
+	
+	GtkWidget *filt_box;
+	GtkWidget *filt_label;
 
 GtkWidget *main_box;
 	GtkWidget *toolbar;
