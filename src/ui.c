@@ -137,7 +137,7 @@ void init_ui()
 			gtk_box_pack_start(GTK_BOX(v_height_row), v_height_label, FALSE, FALSE, 1);
 		
 		GtkWidget *v_height_spin = gtk_spin_button_new_with_range(1, 5000, 1);
-		gtk_editable_set_editable(GTK_MISC(v_height_spin), FALSE);
+		gtk_editable_set_editable(GTK_EDITABLE(v_height_spin), FALSE);
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(v_height_spin), 600);
 			gtk_box_pack_start(GTK_BOX(v_height_row), v_height_spin, FALSE, FALSE, 1);
 		
