@@ -34,7 +34,7 @@ double get_file_size(char *filepath)
 
 void get_msg_win(gchar *msg)
 {
-	GtkWidget *popwin = gtk_message_dialog_new(GTK_WINDOW(mainwin), GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_OK, msg);
+	GtkWidget *popwin = gtk_message_dialog_new(GTK_WINDOW(mainwin), GTK_DIALOG_MODAL, GTK_MESSAGE_OTHER, GTK_BUTTONS_OK, "%s", msg);
 	gtk_dialog_run(GTK_DIALOG(popwin));
 	gtk_widget_destroy(popwin);
 }
@@ -62,8 +62,6 @@ void add_to_list(GtkWidget *list, gchar *str)
 			-1);
 		
 		free(fullname);
-
-
 	}
 }
 

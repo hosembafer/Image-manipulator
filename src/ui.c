@@ -145,7 +145,6 @@ void init_ui()
 		
 		
 		gtk_notebook_append_page(GTK_NOTEBOOK(tabs), prop_box, prop_label);
-		
 		// Properties END
 		
 
